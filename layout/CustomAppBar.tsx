@@ -6,6 +6,7 @@ import { useState } from "react";
 import useAuth from "../lib/hooks/useAuth";
 import { getAuth, signOut } from "firebase/auth";
 import { firebaseApp } from "../lib/auth/initializeApp";
+import { useRouter } from "next/router";
 
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
@@ -25,6 +26,7 @@ const CustomAppBar = () => {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const router = useRouter()
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -36,6 +38,11 @@ const CustomAppBar = () => {
 
     const handleLogout = async () => {
         await signOut(auth)
+        handleClose()
+    }
+
+    const handleMyProfile = () => {
+        router.push('/profile')
         handleClose()
     }
 
@@ -84,6 +91,7 @@ const CustomAppBar = () => {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
+                            <MenuItem onClick={handleMyProfile}>My Profile</MenuItem>
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </Menu>
                     </div>

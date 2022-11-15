@@ -1,6 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import { useState, useEffect } from 'react'
 import { AuthUser } from '../../types/auth';
+import apolloClient from '../apolloClient';
 import { firebaseApp } from '../auth/initializeApp';
 
 const auth = getAuth(firebaseApp)
@@ -20,8 +21,7 @@ export default function useFirebaseAuth() {
             const uid = currentUser.uid ?? '';
             const email = currentUser.email ?? '';
             const tokenId = await currentUser.getIdToken();
-
-            console.log('tokenID', tokenId)
+            await apolloClient.resetStore()
 
             setLoading(false)
 
